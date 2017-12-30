@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ue.WebUeHouseTypeMappingMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ue.WebUeHouseTypeMapping">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="web_house_type_id" property="webHouseTypeId" jdbcType="BIGINT"/>
+        <result column="ue_house_type_id" property="ueHouseTypeId" jdbcType="BIGINT"/>
+        <result column="update_status" property="updateStatus" jdbcType="TINYINT"/>
+        <result column="delete_status" property="deleteStatus" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_update" property="gmtUpdate" jdbcType="TIMESTAMP"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, web_house_type_id, ue_house_type_id, update_status,delete_status,gmt_create,gmt_update,operator
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM web_ue_house_type_mapping
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM web_ue_house_type_mapping
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.entity.ue.WebUeHouseTypeMapping">
+        INSERT INTO
+        web_ue_house_type_mapping
+        (web_house_type_id, ue_house_type_id, update_status,delete_status,gmt_create,gmt_update,operator)
+        VALUES
+        (#{webHouseTypeId}, #{ueHouseTypeId}, #{updateStatus}, #{deleteStatus}, #{gmtCreate}, #{gmtUpdate},#{operator})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.entity.ue.WebUeHouseTypeMapping">
+        UPDATE
+        web_ue_house_type_mapping
+        SET
+        update_status = #{updateStatus},
+        gmt_update = #{gmtUpdate},
+        operator=#{operator}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM
+        web_ue_house_type_mapping
+        WHERE
+        id =#{id}
+    </delete>
+
+    <select id="listByUeHouseTypeId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM web_ue_house_type_mapping
+        WHERE ue_house_type_id=#{ueHouseTypeId} AND delete_status is not true
+        ORDER BY gmt_create
+    </select>
+
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.web.RoomPointDOMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.web.RoomPointDO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="point_id" property="pointId" jdbcType="BIGINT"/>
+        <result column="delete_status" property="deleteStatus" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,point_id,delete_status,gmt_create,gmt_modified
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_room_point
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_room_point
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.entity.web.RoomPointDO">
+        INSERT INTO
+        shopping_room_point
+        (point_id,delete_status,gmt_create,gmt_modified)
+        VALUES
+        (#{pointId},#{deleteStatus}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.entity.web.RoomPointDO">
+        UPDATE
+        shopping_room_point
+        (point_id,delete_status,gmt_create,gmt_modified)
+        SET
+        point_id = #{pointId},
+        delete_status = #{deleteStatus},
+        gmt_modified=#{gmtModified}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM
+        shopping_room_point
+        WHERE
+        id =#{id}
+    </delete>
+
+    <select id="listByUePointId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_room_point
+        WHERE point_id=#{pointId} AND delete_status is not true
+        ORDER BY gmt_create
+    </select>
+
+</mapper>

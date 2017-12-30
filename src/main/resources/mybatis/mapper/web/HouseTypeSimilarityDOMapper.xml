@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.web.HouseTypeSimilarityDOMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.web.HouseTypeSimilarityDO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="house_type_id" property="houseTypeId" jdbcType="BIGINT"/>
+        <result column="similar_house_type_id" property="similarHouseTypeId" jdbcType="BIGINT"/>
+        <result column="similarity" property="similarity" jdbcType="VARCHAR"/>
+        <result column="decimal_similarity" property="decimalSimilarity" jdbcType="DECIMAL"/>
+        <result column="delete_status" property="deleteStatus" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, house_type_id, similar_house_type_id, similarity, decimal_similarity,delete_status,gmt_create,gmt_modified
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_house_type_similarity
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_house_type_similarity
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.entity.web.HouseTypeSimilarityDO">
+       INSERT INTO 
+       		shopping_house_type_similarity
+       		(house_type_id, similar_house_type_id, similarity,decimal_similarity,delete_status,gmt_create,gmt_modified)
+       	VALUES
+       		(#{houseTypeId}, #{similarHouseTypeId}, #{similarity},#{decimalSimilarity}, #{deleteStatus}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.entity.web.HouseTypeSimilarityDO">
+        UPDATE
+        shopping_house_type_similarity
+        (house_type_id, similar_house_type_id, similarity,decimal_similarity,delete_status,gmt_modified)
+        SET
+        house_type_id = #{houseTypeId},
+        similar_house_type_id = #{similarHouseTypeId},
+        similarity = #{similarity},
+        decimal_similarity = #{decimalSimilarity},
+        delete_status = #{deleteStatus},
+        gmt_modified=#{gmtModified}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+       DELETE FROM
+       		 shopping_house_type_similarity
+       WHERE 
+       		 id =#{id}
+    </delete>
+
+    <select id="listByHouseTypeId" resultType="com.example.demo.entity.web.HouseTypeSimilarityDO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_house_type_similarity
+        where
+        delete_status is not TRUE
+        AND (house_type_id = #{houseTypeId} AND similar_house_type_id = #{similarHouseTypeId})
+        OR (house_type_id = #{similarHouseTypeId} AND similar_house_type_id = #{houseTypeId})
+    </select>
+
+</mapper>

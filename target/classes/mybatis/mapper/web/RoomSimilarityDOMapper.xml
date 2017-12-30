@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.web.RoomSimilarityDOMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.web.RoomSimilarityDO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="room_point_id" property="roomPointId" jdbcType="BIGINT"/>
+        <result column="similar_room_point_id" property="similarRoomPointId" jdbcType="BIGINT"/>
+        <result column="similarity" property="similarity" jdbcType="VARCHAR"/>
+        <result column="decimal_similarity" property="decimalSimilarity" jdbcType="DECIMAL"/>
+        <result column="delete_status" property="deleteStatus" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, room_point_id, similar_room_point_id, similarity, decimal_similarity,delete_status,gmt_create,gmt_modified
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_room_similarity
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_room_similarity
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.entity.web.RoomSimilarityDO">
+       INSERT INTO 
+       		shopping_room_similarity
+       		(room_point_id, similar_room_point_id, similarity,decimal_similarity,delete_status,gmt_create,gmt_modified)
+       	VALUES
+       		(#{roomPointId}, #{similarRoomPointId}, #{similarity},#{decimalSimilarity}, #{deleteStatus}, #{gmtCreate}, #{gmtModified})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.entity.web.RoomSimilarityDO">
+        UPDATE
+        shopping_room_similarity
+        (room_point_id, similar_room_point_id, similarity,decimal_similarity,delete_status,gmt_modified)
+        SET
+        room_point_id = #{roomPointId},
+        similar_room_point_id = #{similarRoomPointId},
+        similarity = #{similarity},
+        decimal_similarity = #{decimalSimilarity},
+        delete_status = #{deleteStatus},
+        gmt_modified=#{gmtModified}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+       DELETE FROM
+       		 shopping_room_similarity
+       WHERE 
+       		 id =#{id}
+    </delete>
+
+    <select id="listByRoomPointId" resultType="com.example.demo.entity.web.RoomSimilarityDO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM shopping_room_similarity
+        where
+        delete_status is not TRUE
+        AND (room_point_id = #{roomPointId} AND similar_room_point_id = #{similarRoomPointId})
+        OR (room_point_id = #{similarRoomPointId} AND similar_room_point_id = #{roomPointId})
+    </select>
+
+</mapper>

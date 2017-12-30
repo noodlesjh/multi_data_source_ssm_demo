@@ -1,0 +1,32 @@
+#数据源
+spring:
+  datasource:
+    ue:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test1?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: jianghao1
+    web:
+      driverClassName: com.mysql.jdbc.Driver
+#      url: jdbc:mysql://localhost:3306/test2?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://localhost:3306/jhtest?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: jianghao1
+#mybatis配置
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+
+#端口
+server:
+  port: 8080   #一定要空一个
+#根项目名
+#  context-path: /jh
+
+#操作人
+operatorName: _jh
+#定时器
+cronExpression: 0/5 * * * * ?
+
+#日志
+logging.file: demo2.log
+logging.level.root: warn

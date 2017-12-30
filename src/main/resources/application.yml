@@ -1,0 +1,8 @@
+#可以使用生产环境或者开发环境配置
+
+#启动方式
+#1 mvn spring-boot: run
+#2 mvn install    cd target  java -jar  --spring.profiles.active=prod
+spring:
+  profiles:
+    active: dev

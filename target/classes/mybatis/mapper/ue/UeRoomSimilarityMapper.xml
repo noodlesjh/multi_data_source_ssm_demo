@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ue.UeRoomSimilarityMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.ue.UeRoomSimilarity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="ue_room_id" property="ueRoomId" jdbcType="BIGINT"/>
+        <result column="ue_similar_room_id" property="ueSimilarRoomId" jdbcType="BIGINT"/>
+        <result column="similarity" property="similarity" jdbcType="VARCHAR"/>
+        <result column="update_status" property="updateStatus" jdbcType="TINYINT"/>
+        <result column="delete_status" property="deleteStatus" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_update" property="gmtUpdate" jdbcType="TIMESTAMP"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, ue_room_id, ue_similar_room_id, similarity, update_status,delete_status,gmt_create,gmt_update,operator
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ue_room_similarity_matlab
+    </select>
+
+    <select id="getOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ue_room_similarity_matlab
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.entity.ue.UeRoomSimilarity">
+       INSERT INTO 
+       		ue_room_similarity_matlab
+       		(ue_room_id, ue_similar_room_id, similarity, update_status,delete_status,gmt_create,gmt_update,operator)
+       	VALUES
+       		(#{ueRoomId}, #{ueSimilarRoomId}, #{similarity}, #{updateStatus}, #{deleteStatus}, #{gmtCreate}, #{gmtUpdate},#{operator})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.entity.ue.UeRoomSimilarity">
+        UPDATE
+        ue_room_similarity_matlab
+        SET
+        update_status = #{updateStatus},
+        gmt_update = #{gmtUpdate},
+        operator=#{operator}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+       DELETE FROM
+       		 ue_room_similarity_matlab
+       WHERE 
+       		 id =#{id}
+    </delete>
+
+    <select id="listRights" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ue_room_similarity_matlab
+        WHERE update_status=0 and delete_status is not true;
+    </select>
+
+</mapper>

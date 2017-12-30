@@ -1,0 +1,5 @@
+#可以使用生产环境或者开发环境配置
+#java -jar  --spring.profiles.active=prod
+spring:
+  profiles:
+    active: dev

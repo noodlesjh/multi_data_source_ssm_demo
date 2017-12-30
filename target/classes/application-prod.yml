@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    ue:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test1?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: jianghao1
+    web:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test2?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: root
+      password: jianghao1
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
